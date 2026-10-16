@@ -1,0 +1,81 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api documentation",
+        "version": "1"
+    },
+    "paths": {
+        "/api/tasks/": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Получить список задач",
+                "operationId": "d28e04f0d48c5aa9b2485a86eaf4180d",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Task": {
+                "title": "Task",
+                "description": "Task model",
+                "required": [],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Задача1"
+                    },
+                    "description": {
+                        "type": "text",
+                        "format": "text",
+                        "example": "Описание задачи"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00Z"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Завершена"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "Приоритет"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Категория"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Task",
+            "description": "Task"
+        }
+    ]
+}

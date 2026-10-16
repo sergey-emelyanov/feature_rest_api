@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('description');
             $table->timestamp('deadline');
-            $table->string('status');
+            $table->string('deadline');
             $table->string('priority');
             $table->string('category');
             $table->timestamps();
