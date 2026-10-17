@@ -6,7 +6,6 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use OpenApi\Attributes as OA;
 use Throwable;
@@ -32,6 +31,51 @@ class TaskController extends Controller
     {
         return TaskResource::collection(Task::all())->resolve();
     }
+
+    #[OA\Get(
+        path: "/api/tasks/{id}/",
+        summary: "Получить задачу по идентификатору",
+        tags: ['Task'],
+        parameters: [
+            new OA\Parameter(
+            name: "id",
+            description: "Task ID",
+            in: "path",
+            required: true,
+            schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+            response: 200,
+            description: "Successful operation",
+            content: new OA\JsonContent(ref: "#/components/schemas/TaskResource")
+            ),
+            new OA\Response(
+                response: 404,
+                description: "Not found",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties : [
+                        new OA\Property(property: "message", type: "message", example: "Not found"),
+                        new OA\Property(property: "errors", type: "object", example: "Задачи с таким id не существует")
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function show(int $id)
+    {
+        $task = Task::where('id', $id)->first();
+        if($task instanceof Task){
+            return TaskResource::make($task)->resolve();
+        }
+        return response()->json([
+                "error" => "Not found",
+                "message" => "Задачи с таким id не существует"
+            ], 404);
+    }
+
 
     #[OA\Post(
         path: "/api/tasks/",
@@ -68,7 +112,7 @@ class TaskController extends Controller
                 )
             ),
             new OA\Response(
-                response: 500, 
+                response: 500,
                 description: "Eternal server error",
                 content: new OA\JsonContent(
                     type: "object",

@@ -104,11 +104,108 @@
                     }
                 }
             }
+        },
+        "/api/tasks/{id}/": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Получить задачу по идентификатору",
+                "operationId": "75897e2e48983b9b5242c6f23ac3eb81",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "message",
+                                            "example": "Not found"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": "Задачи с таким id не существует"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
             "StoreRequest": {
+                "required": [
+                    "title",
+                    "description",
+                    "due_date",
+                    "create_date",
+                    "status",
+                    "priority",
+                    "category"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Задача1"
+                    },
+                    "description": {
+                        "type": "text",
+                        "format": "text",
+                        "example": "Описание задачи"
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00"
+                    },
+                    "create_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Завершена"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "Высокий"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Работа"
+                    }
+                },
+                "type": "object"
+            },
+            "TaskResource": {
                 "required": [
                     "title",
                     "description",
