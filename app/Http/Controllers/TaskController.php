@@ -232,4 +232,66 @@ class TaskController extends Controller
                 "message" => "Задачи с таким id не существует"
             ], 404);
     }
+
+    #[OA\Delete(
+        path: "/api/tasks/{id}/",
+        summary: "Удаление задачи по идентификатору",
+        tags: ["Task"],
+        parameters: [
+            new OA\Parameter(
+            name: "id",
+            description: "Task ID",
+            in: "path",
+            required: true,
+            schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: "Task delete successfully",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Task delete successfully")
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: "Not found",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties : [
+                        new OA\Property(property: "message", type: "message", example: "Not found"),
+                        new OA\Property(property: "errors", type: "object", example: "Задачи с таким id не существует")
+                    ]
+                )
+            )
+        ]
+    )]
+    public function destroy(int $id)
+    {
+        $task = Task::where('id', $id)->first();
+        if($task instanceof Task){
+
+            try {
+                TaskService::delete($task);
+                return response()->json([
+                    "message" => "Task deleted successfully"
+                ], 204);
+            } catch (Throwable $e) {
+
+                Log::error("Ошибка при обновлении задачи {$task->id} в БД: " . $e->getMessage(), [
+                    "task" => $task,
+                    "exception" => $e
+                ]);
+            }
+        }
+
+        return response()->json([
+                "error" => "Not found",
+                "message" => "Задачи с таким id не существует"
+            ], 404);
+    }
 }

@@ -20,5 +20,10 @@ class TaskService
         return $task->refresh;
     }
 
+    public static function delete(Task $task)
+    {
+        $task->delete();
+    }
+
 
 }
