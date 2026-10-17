@@ -13,4 +13,12 @@ class TaskService
         return $task;
 
     }
+
+    public static function update(array $data, Task $task)
+    {
+        $task->update($data);
+        return $task->refresh;
+    }
+
+
 }

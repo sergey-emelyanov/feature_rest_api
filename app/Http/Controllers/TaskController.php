@@ -47,9 +47,9 @@ class TaskController extends Controller
         ],
         responses: [
             new OA\Response(
-            response: 200,
-            description: "Successful operation",
-            content: new OA\JsonContent(ref: "#/components/schemas/TaskResource")
+                response: 200,
+                description: "Successful operation",
+                content: new OA\JsonContent(ref: "#/components/schemas/TaskResource")
             ),
             new OA\Response(
                 response: 404,
@@ -144,6 +144,92 @@ class TaskController extends Controller
                 "error" => "Eternal server error"
             ], 500);
         }
+    }
 
+    #[OA\Put(
+        path: "/api/tasks/{id}/",
+        summary: "Обновить задачу",
+        tags: ['Task'],
+        parameters: [
+            new OA\Parameter(
+            name: "id",
+            description: "Task ID",
+            in: "path",
+            required: true,
+            schema: new OA\Schema(type: "integer")
+            )
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            description: "Данные для обновления задачи",
+            content: new OA\JsonContent(
+                ref: "#/components/schemas/StoreRequest"
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: "Task updated successfully",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Task update successfully")
+                    ]
+                )
+            ),
+
+            new OA\Response(
+                response: 404,
+                description: "Not found",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties : [
+                        new OA\Property(property: "message", type: "message", example: "Not found"),
+                        new OA\Property(property: "errors", type: "object", example: "Задачи с таким id не существует")
+                    ]
+                )
+            ),
+
+            new OA\Response(
+                response: 500,
+                description: "Eternal server error",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "error", type: "string", example: "Eternal server error")
+                    ]
+                )
+            )
+        ]
+
+    )]
+    public function update(StoreRequest $request, int $id)
+    {
+        $data = $request->validated();
+        $task = Task::where('id', $id)->first();
+
+        if($task instanceof Task){
+            try {
+                $task = TaskService::update($data, $task);
+                return response()->json([
+                    "message" => "Task updated successfully"
+                ],204);
+            } catch (Throwable $e) {
+                Log::error("Ошибка при обновлении задачи {$task->id} в БД: " . $e->getMessage(), [
+                    "data" => $data,
+                    "task" => $task,
+                    "exception" => $e
+                ]);
+
+                return response()->json([
+                "error" => "Eternal server error"
+                ], 500);
+            }
+        }
+
+        return response()->json([
+                "error" => "Not found",
+                "message" => "Задачи с таким id не существует"
+            ], 404);
     }
 }
