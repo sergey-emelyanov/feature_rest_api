@@ -6,6 +6,7 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use OpenApi\Attributes as OA;
 use Throwable;
@@ -13,7 +14,7 @@ use Throwable;
 class TaskController extends Controller
 {
     #[OA\Get(
-        path: "/api/tasks/",
+        path: "/api/tasks",
         summary: "Получить список задач",
         tags: ['Task'],
         responses : [
@@ -27,13 +28,14 @@ class TaskController extends Controller
             ),
         ]
     )]
-    public function index()
+    public function index(Request $request)
     {
+        dd($request->query());
         return TaskResource::collection(Task::all())->resolve();
     }
 
     #[OA\Get(
-        path: "/api/tasks/{id}/",
+        path: "/api/tasks/{id}",
         summary: "Получить задачу по идентификатору",
         tags: ['Task'],
         parameters: [
@@ -78,7 +80,7 @@ class TaskController extends Controller
 
 
     #[OA\Post(
-        path: "/api/tasks/",
+        path: "/api/tasks",
         summary: "Создать задачу",
         tags: ['Task'],
         requestBody: new OA\RequestBody(
@@ -147,7 +149,7 @@ class TaskController extends Controller
     }
 
     #[OA\Put(
-        path: "/api/tasks/{id}/",
+        path: "/api/tasks/{id}",
         summary: "Обновить задачу",
         tags: ['Task'],
         parameters: [
@@ -234,7 +236,7 @@ class TaskController extends Controller
     }
 
     #[OA\Delete(
-        path: "/api/tasks/{id}/",
+        path: "/api/tasks/{id}",
         summary: "Удаление задачи по идентификатору",
         tags: ["Task"],
         parameters: [
