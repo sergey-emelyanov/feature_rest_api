@@ -27,11 +27,132 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Создать задачу",
+                "operationId": "b263247033817cfd225af5d2a51a93fb",
+                "requestBody": {
+                    "description": "Данные для создания задачи",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Task created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Task created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "message",
+                                            "example": "The title field is required"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": " {title: ['The title field is required.']}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Eternal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Eternal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
     "components": {
         "schemas": {
+            "StoreRequest": {
+                "required": [
+                    "title",
+                    "description",
+                    "due_date",
+                    "create_date",
+                    "status",
+                    "priority",
+                    "category"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Задача1"
+                    },
+                    "description": {
+                        "type": "text",
+                        "format": "text",
+                        "example": "Описание задачи"
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00"
+                    },
+                    "create_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Завершена"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "Высокий"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Работа"
+                    }
+                },
+                "type": "object"
+            },
             "Task": {
                 "title": "Task",
                 "description": "Task model",
@@ -41,7 +162,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "name": {
+                    "title": {
                         "type": "string",
                         "example": "Задача1"
                     },
@@ -50,7 +171,12 @@
                         "format": "text",
                         "example": "Описание задачи"
                     },
-                    "deadline": {
+                    "due_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T00:00:00Z"
+                    },
+                    "create_date": {
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-01-01T00:00:00Z"
@@ -61,11 +187,11 @@
                     },
                     "priority": {
                         "type": "string",
-                        "example": "Приоритет"
+                        "example": "Высокий"
                     },
                     "category": {
                         "type": "string",
-                        "example": "Категория"
+                        "example": "Работа"
                     }
                 },
                 "type": "object"
