@@ -12,15 +12,24 @@ use OpenApi\Attributes as OA;
     required: [],
     properties: [
         new OA\Property(property: "id", type: "integer", example: 1),
-        new OA\Property(property: "name", type: "string", example: "Задача1"),
+        new OA\Property(property: "title", type: "string", example: "Задача1"),
         new OA\Property(property: "description", type: "text", format: "text", example: "Описание задачи"),
-        new OA\Property(property: "deadline", type: "string", format: "date-time", example: "2024-01-01T00:00:00Z"),
+        new OA\Property(property: "due_date", type: "string", format: "date-time", example: "2024-01-01T00:00:00Z"),
+        new OA\Property(property: "create_date", type: "string", format: "date-time", example: "2024-01-01T00:00:00Z"),
         new OA\Property(property: "status", type: "string", example: "Завершена"),
-        new OA\Property(property: "priority", type: "string", example: "Приоритет"),
-        new OA\Property(property: "category", type: "string", example: "Категория"),
+        new OA\Property(property: "priority", type: "string", example: "Высокий"),
+        new OA\Property(property: "category", type: "string", example: "Работа"),
     ]
 )]
 class Task extends Model
 {
-    //
+    protected $fillable = [
+        'title',
+        'description',
+        'due_date',
+        'create_date',
+        'status',
+        'priority',
+        'category'
+    ];
 }

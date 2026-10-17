@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['/api/tasks/'], function(){
-    Route::get('/', [TaskController::class, 'index']);
+Route::group(['/api/'], function(){
+    Route::get('tasks/', [TaskController::class, 'index']);
+    Route::post('tasks/', [TaskController::class, 'store']);
 });

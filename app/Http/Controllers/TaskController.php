@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\StoreRequest;
+use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -11,8 +14,8 @@ use OpenApi\Attributes as OA;
 class TaskController extends Controller
 {
     #[OA\Get(
-        path: '/api/tasks/',
-        summary: 'Получить список задач',
+        path: "/api/tasks/",
+        summary: "Получить список задач",
         tags: ['Task'],
         responses : [
             new OA\Response(
@@ -27,7 +30,18 @@ class TaskController extends Controller
     )]
     public function index()
     {
-        $tasks = Task::all();
-        return response()->json($tasks);
+        return TaskResource::collection(Task::all())->resolve();
+    }
+
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+        $task = TaskService::create($data);
+
+        return response()->json([
+            "id" => $task->id,
+            "message" => 'Task created successfully'
+        ]);
     }
 }
