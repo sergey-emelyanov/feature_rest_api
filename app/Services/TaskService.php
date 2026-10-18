@@ -7,7 +7,7 @@ use App\Models\Task;
 class TaskService
 {
 
-    public  function create(array $data)
+    public function create(array $data)
     {
         $task = Task::create($data);
         return $task;
@@ -20,12 +20,12 @@ class TaskService
         return $task->refresh;
     }
 
-    public  function delete(Task $task)
+    public function delete(Task $task)
     {
         $task->delete();
     }
 
-    public  function getList(array $filters=[])
+    public function getList(array $filters=[])
     {
         $query = Task::query();
 
@@ -39,7 +39,9 @@ class TaskService
             fn ($q) => $this->applySorting($q, $filters['sort'])
         );
 
-        return $query->get();
+        $per_page = min((int)($filters['per_page'] ?? 10), 100);
+
+        return $query->paginate($per_page);
     }
 
 

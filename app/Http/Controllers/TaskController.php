@@ -17,15 +17,72 @@ class TaskController extends Controller
         path: "/api/tasks",
         summary: "Получить список задач",
         tags: ['Task'],
+        parameters:[
+            new OA\Parameter(
+                name: "search",
+                description: "Параметр для поиска по названию",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type:"string")
+
+            ),
+            new OA\Parameter(
+                name: "sort",
+                description: "Параметры для сортировки",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type:"string")
+            ),
+            new OA\Parameter(
+                name: "per_page",
+                description: "Количество задач на страницу",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type: "integer")
+            ),
+            new OA\Parameter(
+                name: "page",
+                description: "Номер страницы",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
         responses : [
             new OA\Response(
                 response: 200,
                 description: "Successful operation",
                 content: new OA\JsonContent(
-                    type: "array",
-                    items: new OA\Items(ref: "#/components/schemas/Task")
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "data",
+                            type: "array",
+                            items: new OA\Items(ref: "#/components/schemas/Task")
+                        ),
+                        new OA\Property(
+                            property: "meta",
+                            properties: [
+                                new OA\Property(property: "current_page", type: "integer", example: 1),
+                                new OA\Property(property: "last_page", type: "integer", example: 10),
+                                new OA\Property(property: "per_page", type: "integer", example: 15),
+                                new OA\Property(property: "total", type: "integer", example: 150)
+                            ],
+                            type: "object"
+                        ),
+                        new OA\Property(
+                            property: "links",
+                            properties: [
+                                new OA\Property(property: "first", type: "string", example: "http://localhost/tasks?page=1"),
+                                new OA\Property(property: "last", type: "string", example: "http://localhost/tasks?page=10"),
+                                new OA\Property(property: "prev", type: "string", nullable: true, example: null),
+                                new OA\Property(property: "next", type: "string", example: "http://localhost/tasks?page=2")
+                            ],
+                            type: "object"
+                        )
+                    ]
                 )
-            ),
+            )
         ]
     )]
     public function index(Request $request, TaskService $taskService)
@@ -40,11 +97,11 @@ class TaskController extends Controller
         tags: ['Task'],
         parameters: [
             new OA\Parameter(
-            name: "id",
-            description: "Task ID",
-            in: "path",
-            required: true,
-            schema: new OA\Schema(type: "integer")
+                name: "id",
+                description: "Task ID",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
             )
         ],
         responses: [
