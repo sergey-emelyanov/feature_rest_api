@@ -5,13 +5,13 @@
         "version": "1"
     },
     "paths": {
-        "/api/tasks/": {
+        "/api/tasks": {
             "get": {
                 "tags": [
                     "Task"
                 ],
                 "summary": "Получить список задач",
-                "operationId": "d28e04f0d48c5aa9b2485a86eaf4180d",
+                "operationId": "471d938a3bfaeb6fbd981d7c3e2728b0",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -33,7 +33,7 @@
                     "Task"
                 ],
                 "summary": "Создать задачу",
-                "operationId": "b263247033817cfd225af5d2a51a93fb",
+                "operationId": "f803ebdb2300acdb7e93bbe8d0b9a2e8",
                 "requestBody": {
                     "description": "Данные для создания задачи",
                     "required": true,
@@ -105,13 +105,13 @@
                 }
             }
         },
-        "/api/tasks/{id}/": {
+        "/api/tasks/{id}": {
             "get": {
                 "tags": [
                     "Task"
                 ],
                 "summary": "Получить задачу по идентификатору",
-                "operationId": "75897e2e48983b9b5242c6f23ac3eb81",
+                "operationId": "90b3cd4d2d4b416dc989d2055dbed06c",
                 "parameters": [
                     {
                         "name": "id",
@@ -161,7 +161,7 @@
                     "Task"
                 ],
                 "summary": "Обновить задачу",
-                "operationId": "37d87469e75744f25e4b3baed8285760",
+                "operationId": "1aaf37e74360ef4c10fadaee02ae77fb",
                 "parameters": [
                     {
                         "name": "id",
@@ -244,7 +244,7 @@
                     "Task"
                 ],
                 "summary": "Удаление задачи по идентификатору",
-                "operationId": "e9d7c96a7c09077718166d45436fadd5",
+                "operationId": "ad582480cd57c2a4e3b6a426943eeca5",
                 "parameters": [
                     {
                         "name": "id",

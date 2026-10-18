@@ -28,10 +28,10 @@ class TaskController extends Controller
             ),
         ]
     )]
-    public function index(Request $request)
+    public function index(Request $request, TaskService $taskService)
     {
-        dd($request->query());
-        return TaskResource::collection(Task::all())->resolve();
+
+        return $taskService->getList($request->query());
     }
 
     #[OA\Get(
@@ -125,12 +125,12 @@ class TaskController extends Controller
             )
         ]
     )]
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, TaskService $taskService)
     {
         $data = $request->validated();
 
         try {
-            $task = TaskService::create($data);
+            $task = $taskService->create($data);
             return response()->json([
                 "id" => $task->id,
                 "message" => "Task created successfully"
@@ -205,14 +205,14 @@ class TaskController extends Controller
         ]
 
     )]
-    public function update(StoreRequest $request, int $id)
+    public function update(StoreRequest $request, int $id, TaskService $taskService)
     {
         $data = $request->validated();
         $task = Task::where('id', $id)->first();
 
         if($task instanceof Task){
             try {
-                $task = TaskService::update($data, $task);
+                $task = $taskService->update($data, $task);
                 return response()->json([
                     "message" => "Task updated successfully"
                 ],204);
@@ -272,13 +272,13 @@ class TaskController extends Controller
             )
         ]
     )]
-    public function destroy(int $id)
+    public function destroy(int $id, TaskService $taskService)
     {
         $task = Task::where('id', $id)->first();
         if($task instanceof Task){
 
             try {
-                TaskService::delete($task);
+                $taskService->delete($task);
                 return response()->json([
                     "message" => "Task deleted successfully"
                 ], 204);
