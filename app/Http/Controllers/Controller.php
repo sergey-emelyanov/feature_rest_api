@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use OpenApi\Attributes as OA;
 
 
-#[OA\info(
+#[OA\Info(
     title: 'Api documentation',
     version: '1'
 )]
