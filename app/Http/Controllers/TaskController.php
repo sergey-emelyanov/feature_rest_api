@@ -55,31 +55,39 @@ class TaskController extends Controller
                 content: new OA\JsonContent(
                     type: "object",
                     properties: [
+                        new OA\Property(property: "current_page", type: "integer", example: 1),
+
                         new OA\Property(
                             property: "data",
                             type: "array",
                             items: new OA\Items(ref: "#/components/schemas/Task")
                         ),
-                        new OA\Property(
-                            property: "meta",
-                            properties: [
-                                new OA\Property(property: "current_page", type: "integer", example: 1),
-                                new OA\Property(property: "last_page", type: "integer", example: 10),
-                                new OA\Property(property: "per_page", type: "integer", example: 15),
-                                new OA\Property(property: "total", type: "integer", example: 150)
-                            ],
-                            type: "object"
-                        ),
+
+                        new OA\Property(property: "first_page_url", type: "string", example: "http://127.0.0.1:8876/api/tasks?page=1"),
+                        new OA\Property(property: "from", type: "integer", example: 1),
+                        new OA\Property(property: "last_page", type: "integer", example: 1),
+                        new OA\Property(property: "last_page_url", type: "string", example: "http://127.0.0.1:8876/api/tasks?page=1"),
+
                         new OA\Property(
                             property: "links",
-                            properties: [
-                                new OA\Property(property: "first", type: "string", example: "http://localhost/tasks?page=1"),
-                                new OA\Property(property: "last", type: "string", example: "http://localhost/tasks?page=10"),
-                                new OA\Property(property: "prev", type: "string", nullable: true, example: null),
-                                new OA\Property(property: "next", type: "string", example: "http://localhost/tasks?page=2")
-                            ],
-                            type: "object"
-                        )
+                            type: "array",
+                            items: new OA\Items(
+                                type: "object",
+                                properties: [
+                                    new OA\Property(property: "url", type: "string", nullable: true, example: null),
+                                    new OA\Property(property: "label", type: "string", example: "Previous"),
+                                    new OA\Property(property: "page", type: "integer", nullable: true, example: null),
+                                    new OA\Property(property: "active", type: "boolean", example: false)
+                                ]
+                            )
+                        ),
+
+                        new OA\Property(property: "next_page_url", type: "string", nullable: true, example: null),
+                        new OA\Property(property: "path", type: "string", example: "http://127.0.0.1:8876/api/tasks"),
+                        new OA\Property(property: "per_page", type: "integer", example: 10),
+                        new OA\Property(property: "prev_page_url", type: "string", nullable: true, example: null),
+                        new OA\Property(property: "to", type: "integer", example: 3),
+                        new OA\Property(property: "total", type: "integer", example: 3),
                     ]
                 )
             )
