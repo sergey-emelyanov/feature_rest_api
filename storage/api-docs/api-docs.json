@@ -16,19 +16,21 @@
                     {
                         "name": "search",
                         "in": "query",
-                        "description": "Параметр для поиска по названию",
+                        "description": "Параметр для поиска по названию (title)",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Задача1"
                         }
                     },
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Параметры для сортировки",
+                        "description": "Сортировка. Доступные поля: due_date, create_date.\n                Для сортировки по убыванию используйте префикс '-' (например, -due_date)",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "-due_date,create_date"
                         }
                     },
                     {

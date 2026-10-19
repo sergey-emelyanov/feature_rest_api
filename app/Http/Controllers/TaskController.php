@@ -20,7 +20,7 @@ class TaskController extends Controller
         parameters:[
             new OA\Parameter(
                 name: "search",
-                description: "Параметр для поиска по названию",
+                description: "Параметр для поиска по названию (title)",
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type:"string")
@@ -28,7 +28,8 @@ class TaskController extends Controller
             ),
             new OA\Parameter(
                 name: "sort",
-                description: "Параметры для сортировки",
+                description: "Сортировка. Доступные поля: due_date, create_date.
+                Для сортировки по убыванию используйте префикс '-' (например, -due_date)",
                 in: "query",
                 required: false,
                 schema: new OA\Schema(type:"string")
