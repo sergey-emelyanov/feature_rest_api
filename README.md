@@ -11,14 +11,17 @@
 - Nginx
 - Docker / Docker Compose
 
-### Устанока и запуск проекта 
+### Установка и запуск проекта 
+Перед запуском проекта убедитесь что у вас установлены следующие инструменты:
+- Git
+- Docker (версия 20.10 или выше)
+- Docker Compose (плагин V2, там где `docker compose` с пробелом, иначе приведенные ниже команды работать не будут)
 
 1. Склонировать репозиторий 
 
 ```bash
-mkdir task_api
-cd /task_api
-git clone https://github.com/sergey-emelyanov/feature_rest_api.git .
+git clone https://github.com/sergey-emelyanov/feature_rest_api.git
+cd feature_rest_api
 ```
 
 2. Скопировать файл окружения 
@@ -60,6 +63,11 @@ docker compose exec app php artisan l5-swagger:generate
 
 http://localhost:8876/api/documentation
 
+До этого опыта со swagger у меня не было, я воспользовался библиотекой darkaonline/l5-swagger
+Примерами оформления вдохновлялся из одноименного репозитория 
+https://github.com/DarkaOnLine/L5-Swagger/wiki/Examples
+
+
 
 ### Тесты 
 
@@ -90,5 +98,5 @@ docker compose exec app php artisan test
 
 Реализован мануальный деплой проекта, посмотреть можно 
 
-http://38.180.40.10:8876/api/documentation/
+http://38.180.40.10:8876/api/documentation
 
