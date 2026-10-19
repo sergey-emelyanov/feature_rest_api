@@ -51,7 +51,13 @@ docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate
 ```
 
-7. Сгенерировать документацию Swagger
+7. Настроить права доступа
+```bash
+docker compose exec app chown -R www-data:www-data storage bootstrap/cache
+docker compose exec app chmod -R 775 storage bootstrap/cache
+```
+
+8. Сгенерировать документацию Swagger
 ```bash
 docker compose exec app php artisan l5-swagger:generate
 ```
