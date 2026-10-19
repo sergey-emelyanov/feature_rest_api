@@ -94,7 +94,7 @@
                                                     },
                                                     "label": {
                                                         "type": "string",
-                                                        "example": "&laquo; Previous"
+                                                        "example": "Previous"
                                                     },
                                                     "page": {
                                                         "type": "integer",

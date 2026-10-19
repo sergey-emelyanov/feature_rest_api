@@ -16,6 +16,8 @@
 1. Склонировать репозиторий 
 
 ```bash
+mkdir task_api
+cd /task_api
 git clone https://github.com/sergey-emelyanov/feature_rest_api.git .
 ```
 
